@@ -29,26 +29,24 @@ It is **not** intended for ESP8266 boards.
 Include the header and start the debugger in your `setup()` function.  Register any pins you want to monitor.  In synchronous mode (`ESP_LIVE_DBG_ASYNC` set to `0`), call `esp32_ble_debugger_loop()` in your `loop()` to trigger packet sending.  In asynchronous mode (the default), the library handles sampling in a background task.
 
 ```cpp
-#include <esp32_ble_debugger_Lite.h>
+#include "esp32_ble_debugger_Lite.h"
 
 void setup() {
-  Serial.begin(115200);
-  // Start the debugger.  Do not specify a sampling interval here – the
-  // companion app will set it after connecting.
-  esp32_ble_debugger_begin();
-  
-  // (Optional) automatically register all safe GPIOs
-  // registerSafePins();
+  // Example: read a button on GPIO 2
+  pinMode(2, INPUT_PULLUP);
 
-  // Register GPIO 2 as a digital input
-  esp32_ble_debugger_register_pin(2, "DIGITAL", "IN");
+  // Register GPIO 2 as a DIGITAL input using the macro API
+  ESP32_PROBE_GPIO(2, "DIGITAL", "IN");
+
+  // Start BLE streaming; the companion app will set the sampling rate
+  esp32_ble_debugger_begin();
 }
 
 void loop() {
-  // If using synchronous mode (ESP_LIVE_DBG_ASYNC == 0), call
-  // esp32_ble_debugger_loop() periodically to transmit data.
+  // If ESP_LIVE_DBG_ASYNC == 0, keep this; otherwise it's a no-op
   esp32_ble_debugger_loop();
 }
+
 ```
 
 Connect to the device from your companion app to start receiving live telemetry.  
