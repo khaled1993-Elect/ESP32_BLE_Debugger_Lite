@@ -1,6 +1,6 @@
 //
 // ESP32 BLE Debugger Lite
-// Version 1.6.2
+// Version 1.6.3
 //
 
 #include "esp32_ble_debugger_Lite.h"
