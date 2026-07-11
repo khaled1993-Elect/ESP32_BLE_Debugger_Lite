@@ -1,6 +1,6 @@
 //
 // ESP32 BLE Debugger Lite
-// Version 1.6.2
+// Version 1.6.3
 //
 // Public API for monitoring real ESP32 GPIOs and virtual float variables
 // over Bluetooth Low Energy.
