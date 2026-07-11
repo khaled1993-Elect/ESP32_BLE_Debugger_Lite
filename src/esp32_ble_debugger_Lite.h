@@ -27,7 +27,7 @@
    Version and configuration
    -------------------------------------------------------------------------- */
 
-#define ESP_LIVE_DBG_VER "1.6.2"
+#define ESP_LIVE_DBG_VER "1.6.3"
 
 // Include internal chip temperature in the JSON header when the selected
 // ESP32 target provides temperatureRead(). This is chip temperature, not
