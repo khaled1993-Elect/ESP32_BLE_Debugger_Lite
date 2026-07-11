@@ -1,6 +1,6 @@
 # ESP32 BLE Debugger Lite
 
-**Version 1.6.2**
+**Version 1.6.3**
 
 ESP32 BLE Debugger Lite streams real GPIO states and virtual floating-point
 variables from an ESP32 to the ESP32 BLE Debugger companion app.
