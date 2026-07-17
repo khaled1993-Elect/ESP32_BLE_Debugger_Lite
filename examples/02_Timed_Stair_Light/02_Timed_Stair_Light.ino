@@ -12,7 +12,7 @@
     Probe 201 -> secondsRemaining
 */
 
-#include "esp32_ble_debugger_Lite.h"
+#include "esp32_live.h"
 
 const int BUTTON_PIN = 0;
 const int LIGHT_PIN = 2;
@@ -33,7 +33,7 @@ void setup() {
   ESP32_PROBE_VIRTUAL(200, lightState);
   ESP32_PROBE_VIRTUAL(201, secondsRemaining);
 
-  esp32_ble_debugger_begin(250, "Stair-Light");
+  esp32_live_begin(50, "Stair-Light");
 }
 
 void loop() {
@@ -59,5 +59,4 @@ void loop() {
   }
 
   lastButton = button;
-  esp32_ble_debugger_loop();
 }

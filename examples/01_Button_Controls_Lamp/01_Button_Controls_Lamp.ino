@@ -10,7 +10,7 @@
     Probe 201 -> pressCount
 */
 
-#include "esp32_ble_debugger_Lite.h"
+#include "esp32_live.h"
 
 const int BUTTON_PIN = 0;
 const int LAMP_PIN = 2;
@@ -32,7 +32,7 @@ void setup() {
   ESP32_PROBE_VIRTUAL(200, lampState);
   ESP32_PROBE_VIRTUAL(201, pressCount);
 
-  esp32_ble_debugger_begin(250, "Button-Lamp");
+  esp32_live_begin(50, "Button-Lamp");
 }
 
 void loop() {
@@ -49,5 +49,4 @@ void loop() {
   }
 
   lastButton = button;
-  esp32_ble_debugger_loop();
 }

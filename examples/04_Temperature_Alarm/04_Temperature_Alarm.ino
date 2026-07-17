@@ -16,7 +16,7 @@
 */
 
 #include <math.h>
-#include "esp32_ble_debugger_Lite.h"
+#include "esp32_live.h"
 
 const int ALARM_PIN = 2;
 
@@ -31,7 +31,7 @@ void setup() {
   ESP32_PROBE_VIRTUAL(200, temperatureC);
   ESP32_PROBE_VIRTUAL(201, alarmState);
 
-  esp32_ble_debugger_begin(250, "Temperature-Alarm");
+  esp32_live_begin(50, "Temperature-Alarm");
 }
 
 void loop() {
@@ -44,6 +44,4 @@ void loop() {
   alarmState = temperatureC >= 28.0f ? 1 : 0;
 
   digitalWrite(ALARM_PIN, alarmState > 0.5f ? HIGH : LOW);
-
-  esp32_ble_debugger_loop();
 }

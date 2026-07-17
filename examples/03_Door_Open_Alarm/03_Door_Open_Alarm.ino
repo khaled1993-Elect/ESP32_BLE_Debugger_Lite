@@ -13,7 +13,7 @@
     Probe 201 -> alarmState
 */
 
-#include "esp32_ble_debugger_Lite.h"
+#include "esp32_live.h"
 
 const int DOOR_PIN = 0;
 const int ALARM_PIN = 2;
@@ -33,7 +33,7 @@ void setup() {
   ESP32_PROBE_VIRTUAL(200, doorOpenSeconds);
   ESP32_PROBE_VIRTUAL(201, alarmState);
 
-  esp32_ble_debugger_begin(250, "Door-Alarm");
+  esp32_live_begin(50, "Door-Alarm");
 }
 
 void loop() {
@@ -60,6 +60,4 @@ void loop() {
   }
 
   digitalWrite(ALARM_PIN, alarmState > 0.5f ? HIGH : LOW);
-
-  esp32_ble_debugger_loop();
 }
