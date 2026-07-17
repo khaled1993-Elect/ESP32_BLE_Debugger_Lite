@@ -1,6 +1,5 @@
-ESP32_BLE_Debugger_Lite	KEYWORD1
+ESP32_Live	KEYWORD1
 ESP32_PROBE_GPIO	KEYWORD2
 ESP32_PROBE_VIRTUAL	KEYWORD2
-esp32_ble_debugger_begin	KEYWORD2
-esp32_ble_debugger_loop	KEYWORD2
+esp32_live_begin	KEYWORD2
 registerSafePins	KEYWORD2

@@ -1,11 +1,11 @@
-# ESP32 BLE Debugger Lite
+# ESP32 Live
 
-**Version 1.6.3**
+**Version 1.7.2**
 
-ESP32 BLE Debugger Lite is an Arduino library for monitoring real ESP32 GPIO
+ESP32 Live is an Arduino library for monitoring real ESP32 GPIO
 pins and internal program variables over Bluetooth Low Energy.
 
-It works with the ESP32 BLE Debugger companion app and helps students and
+It works with the ESP32-Live companion app and helps students and
 developers observe program behavior without relying only on the Serial Monitor.
 
 ## Main features
@@ -13,7 +13,8 @@ developers observe program behavior without relying only on the Serial Monitor.
 - Monitor digital GPIO inputs and outputs.
 - Monitor analog GPIO values.
 - Monitor internal `float` variables as virtual probes.
-- Change the sampling rate from the mobile app.
+- Change the sampling interval from the mobile app.
+- Use a default interval of 50 ms, with selectable intervals from 20 ms to 60 s.
 - Run BLE transmission in a background FreeRTOS task.
 - Restart advertising automatically after disconnection.
 - Set a custom BLE device name.
@@ -24,7 +25,7 @@ developers observe program behavior without relying only on the Serial Monitor.
 
 ### Supported
 
-- ESP32-S3 — tested with version 1.6.3.
+- ESP32-S3 — tested with version 1.7.2.
 - Original ESP32.
 - ESP32-C3 and ESP32-C6 with valid board-specific GPIO selection.
 
@@ -41,7 +42,7 @@ before selecting real GPIO pins.
 - Arduino IDE
 - Arduino-ESP32 Core 3.x
 - ArduinoJson by Benoit Blanchon
-- ESP32 BLE Debugger companion app
+- ESP32-Live companion app
 
 ## Installation
 
@@ -57,7 +58,7 @@ before selecting real GPIO pins.
 This example uses the ESP32-S3 onboard BOOT button to toggle GPIO2.
 
 ```cpp
-#include "esp32_ble_debugger_Lite.h"
+#include "esp32_live.h"
 
 const int BUTTON_PIN = 0;
 const int LAMP_PIN = 2;
@@ -77,7 +78,7 @@ void setup() {
   ESP32_PROBE_VIRTUAL(200, lampState);
   ESP32_PROBE_VIRTUAL(201, pressCount);
 
-  esp32_ble_debugger_begin(250, "Button-Lamp");
+  esp32_live_begin(50, "Button-Lamp");
 }
 
 void loop() {
@@ -92,7 +93,6 @@ void loop() {
   }
 
   lastButton = button;
-  esp32_ble_debugger_loop();
 }
 ```
 
@@ -126,18 +126,22 @@ Virtual probe rules:
 
 - The variable must currently be a `float`.
 - Use a unique probe ID from 100 to 255.
-- Keep the variable alive during the debugging session.
+- Keep the variable alive during the monitoring session.
 - `volatile` is recommended.
 
-## Starting the debugger
+## Starting ESP32 Live
 
 ```cpp
-esp32_ble_debugger_begin();
-esp32_ble_debugger_begin(250);
-esp32_ble_debugger_begin(250, "Student-01");
+esp32_live_begin();
+esp32_live_begin(50);
+esp32_live_begin(50, "Student-01");
 ```
 
 The default BLE device name is `ESP32-device`.
+
+After `esp32_live_begin()` is called, acquisition and BLE transmission run
+automatically in a background FreeRTOS task. No function call is required from
+`loop()`.
 
 ## Included examples
 
@@ -167,12 +171,16 @@ The BLE protocol remains compatible with version 1.6.
 - Notify: `0000DEB1-0000-1000-8000-00805F9B34FB`
 - Write: `0000DEB2-0000-1000-8000-00805F9B34FB`
 - Preferred MTU: 247
+- `sample_id`: increments once per scheduled acquisition cycle
+- `timestamp`: monotonic ESP32 time in milliseconds
+- All chunks of one snapshot carry the same `sample_id` and `timestamp`
+- Temporary BLE interruptions appear as `sample_id` gaps after reconnection
 
 ## Important notes
 
 - Internal temperature is chip temperature, not room temperature.
 - Analog voltage conversion is approximate unless ADC calibration is used.
-- Register probes before calling `esp32_ble_debugger_begin()`.
+- Register probes before calling `esp32_live_begin()`.
 - Pressing BOOT while the sketch runs is safe.
 - Holding BOOT during reset enters download mode.
 
